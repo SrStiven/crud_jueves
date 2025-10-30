@@ -17,4 +17,9 @@ Route::get('/eliminar/{book}', [BooksController::class, 'delete'])->name('book.d
 
 Route::post('/destroyAll', [BooksController::class, 'destroy'])->name('book.destroy');
 
+//Export y Import
+
+Route::get('/libros/export', [BooksController::class, 'exportExcel'])->name('book.export');
+
+Route::post('/libros/import', [BooksController::class, 'importExcel'])->name('book.import');
 

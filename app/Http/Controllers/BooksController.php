@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\BooksExport;
 use App\Http\Requests\BooksRequest;
+use App\Imports\BooksImport;
 use App\Models\Books;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BooksController extends Controller
 {
@@ -67,6 +70,19 @@ class BooksController extends Controller
         return back();
     }
 
+    public function exportExcel(){
+
+        return Excel::download(new BooksExport, 'jueves.xlsx');
+    }
+
+    public function importExcel(Request $request)
+    {
+        $request -> validate(['file' => 'required|mimes:xlsx,xls']);
+
+        Excel::import(new BooksImport, $request->file('file'));
+
+        return redirect()->route('book.index');
+    }
     
     
 }
