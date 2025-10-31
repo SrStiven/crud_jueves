@@ -85,6 +85,7 @@
                 <th>Genero</th>
                 <th>Fecha</th>
                 <th>Archivo</th>
+                <th>Logs</th>
                 <th>Accion</th>
                 <th>Accion</th>
             </tr>
@@ -104,6 +105,9 @@
                         @else
                         <span>Sin archivo</span>    
                         @endif
+                    </th>
+                    <th>
+                        <a href="{{ route('book.logs', $book->id) }}" class="btn btn-info btn-sm">Ver logs</a>
                     </th>
                     <th><a href="{{ route('book.edit', $book->id) }}">Editar</a></th>
                     <th><a href="{{ route('book.delete', $book->id) }}">Eliminar</a></th>

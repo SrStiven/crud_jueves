@@ -23,14 +23,15 @@ class BooksController extends Controller
 
     public function create(BooksRequest $request)
     {
-        $fillpath = $request->file('file')->store('books', 'public');
+        $fillpath = $request->file('file')->store('books','public');
 
         $data = $request->validated();
         $data['file_path'] = $fillpath;
 
         Books::create($data);
 
-        return back();
+        return redirect()->route('book.index');
+        
     }
 
     public function update(BooksRequest $request)
@@ -38,15 +39,17 @@ class BooksController extends Controller
         $book = Books::findOrFail($request -> id);
 
         if($request->hasFile('file')){
-            if($book->file_path && Storage::disk('public')->exists($book->file_path)){
+            if($book->file_path && Storage::disk('public')->exists($book->file_path))
+            {
                 Storage::disk('public')->delete($book->file_path);
             }
-            $book->file_path = $request->file('file')->store('books', 'public');
+
+            $book->file_path = $request->file('file')->store('books','public');
         }
 
         $book->update([
             ...$request->validated(),
-            'file_path' => $book->file_path,
+            'file_path'=>$book->file_path,
         ]);
 
         return redirect()->route('book.index');
@@ -90,5 +93,16 @@ class BooksController extends Controller
         return redirect()->route('book.index');
     }
     
-    
+    public function logs($id)
+
+    {
+    // carga el libro y los logs relacionados junto con el event
+    $book = Books::with('logs.event')->findOrFail($id);
+
+    // obtener los logs (colección)
+    $logs = $book->logs()->with('event')->orderBy('created_at', 'desc')->get();
+
+    // devolver ambos a la vista
+    return view('book.logs', compact('book', 'logs'));
+    }
 }

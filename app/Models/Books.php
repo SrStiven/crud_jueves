@@ -7,4 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Books extends Model
 {
     protected $fillable = ['name', 'title', 'count', 'gender', 'due_date', 'file_path'];
+
+     public function logs()
+    {
+        return $this->hasMany(Log::class, 'book_id');
+    }
 }

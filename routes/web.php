@@ -22,3 +22,7 @@
     Route::get('/libros/export',[BooksController::class,'exportExcel'])->name('book.export');
 
     Route::post('/libros/import',[BooksController::class,'importExcel'])->name('book.import');
+
+    //Metodo mostrar logs
+
+    Route::get('/logs/{id}', [BooksController::class, 'logs'])->name('book.logs');
