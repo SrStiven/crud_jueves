@@ -5,47 +5,53 @@
         <div class="mx-auto" style="width:200px">
             <h2>Crear libros</h2>
         </div>
-        @if ($errors->any())
-            <div class="alert alert-danger">
-            <ul>
-             @foreach($errors->all() as $error)
-                <li>{{ $error }}</li>
-             @endforeach
-            </ul>
-            </div>
-        @endif
         <form action="{{ route('book.create') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
             <label> Nombre del autor</label>
-            <input type="text" name="name" value="{{ old('name') }}" required>
+            <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" required>
+            @error('name')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Titulo del libro</label>
-            <input type="text" name="title" value="{{ old('title') }}" required>
+            <input type="text" name="title" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror" required>
+            @error('title')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Cantidad de libros</label>
-            <input type="text" name="count" value="{{ old('count') }}" required >
+            <input type="text" name="count" value="{{ old('count') }}" class="form-control @error('count') is-invalid @enderror" required>
+            @error('count')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Fecha de vencimiento del libro</label>
-            <input type="date" name="due_date" value="{{ old('due_date') }}" required>
+            <input type="date" name="due_date" value="{{ old('due_date') }}" class="form-control @error('due_date') is-invalid @enderror" required>
+            @error('due_date')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label>Genero del libro</label>
-            <select name="gender" class="form-control">
+            <select name="gender" class="form-control" class="form-control @error('gender') is-invalid @enderror" required>
                 <option value="">Seleccinar</option>
                 <option value="accion" {{ old('gender') == 'accion' ? 'selected' : '' }}>Accion</option>
                 <option value="comedia"{{ old('gender') == 'comedia' ? 'selected' : '' }}>Comedia</option>
                 <option value="ficcion" {{ old('gender') == 'ficcion' ? 'selected' : '' }}>Ficcion</option>
             </select>
+            @error('gender')
+                <div class="text-danger mt-1">{{ $message }}</div>
+            @enderror
         </div>
          <div class="form-group">
             <label>Archivo PDF o Word</label>
-            <input type="file" name="file" accept=".pdf,.doc,.docx" class="form-control" required>
+            <input type="file" name="file" accept=".pdf,.doc,.docx,.xlsx" class="form-control @error('count') is-invalid @enderror" required>
             @error('file')
-                <span class="text-danger">{{ $message }}</span>
+                <span class="text-danger mt-1">{{ $message }}</span>
             @enderror
         </div>
         <br>
