@@ -40,8 +40,19 @@ class BooksRequest extends FormRequest
     public function messages() : array
     {
         return [
+            'name.required' => 'El nombre debe ser requerido',
+            'name.string' => 'El nombre debe ser sin numeros',
+            'title.required' => 'El titulo es requerido',
+            'title.string' => 'El titulo debe ser en texto',
             'count.required' => 'La cantidad de libros es requerida',
             'count.integer' => 'La cantidad de libros debe ser numeros enteros', 
+            'gender.required' => 'El genero del libro debe ser requerido',
+            'gender.string' => 'Se debe seleccionar un genero',
+            'due_date.required' => 'La fecha es obligatoria',
+            'due_date.date' => 'Debe ingresar una fecha válida',
+            'file.mimes' => 'El archivo debe ser de tipo PDF, DOC o DOCX',
+            'file.max' => 'El archivo no debe superar los 2MB',
+
             
         ];   
     }

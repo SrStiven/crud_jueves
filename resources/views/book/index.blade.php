@@ -43,14 +43,12 @@
         </div>
         <div class="form-group">
             <label>Archivo pdf o word</label>
-            <input type="file" name="file" accept=".pdf,.doc,.docx" required>
+            <input type="file" name="file" accept=".pdf,.doc,.docx,.xlsx" required>
         </div>
         <br>
         <button type="submit">Enviar</button>
     </form>
     </div>
-
-
  
     <hr>
     <form action="{{ route('book.destroy') }}" method="POST" onsubmit="return confirm('Estas seguro?')">
