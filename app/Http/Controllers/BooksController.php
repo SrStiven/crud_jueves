@@ -26,6 +26,7 @@ class BooksController extends Controller
         $fillpath = $request->file('file')->store('books','public');
 
         $data = $request->validated();
+        
         $data['file_path'] = $fillpath;
 
         Books::create($data);
@@ -71,7 +72,7 @@ class BooksController extends Controller
 
     public function destroy()
     {
-        Books::truncate();
+        Books::query()->delete();
         return back();
     }
 
@@ -96,13 +97,12 @@ class BooksController extends Controller
     public function logs($id)
 
     {
-    // carga el libro y los logs relacionados junto con el event
+
     $book = Books::with('logs.event')->findOrFail($id);
 
-    // obtener los logs (colección)
     $logs = $book->logs()->with('event')->orderBy('created_at', 'desc')->get();
 
-    // devolver ambos a la vista
+
     return view('book.logs', compact('book', 'logs'));
     }
 }

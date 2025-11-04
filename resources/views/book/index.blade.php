@@ -5,7 +5,15 @@
         <div class="mx-auto" style="width:200px">
             <h2>Crear libros</h2>
         </div>
-        
+        @if ($errors->any())
+            <div class="alert alert-danger">
+            <ul>
+             @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+             @endforeach
+            </ul>
+            </div>
+        @endif
         <form action="{{ route('book.create') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
@@ -18,7 +26,7 @@
         </div>
         <div class="form-group">
             <label>Cantidad de libros</label>
-            <input type="number" name="count" required min="0">
+            <input type="text" name="count" required >
         </div>
         <div class="form-group">
             <label>Fecha de vencimiento del libro</label>
@@ -45,7 +53,7 @@
 
  
     <hr>
-    <form action="{{ route('book.destroy') }}" method="POST" onsubmit="return confirm('Estas seguro')?">
+    <form action="{{ route('book.destroy') }}" method="POST" onsubmit="return confirm('Estas seguro?')">
         @csrf
         <div>
             <label>Eliminar todos los libros</label>

@@ -15,11 +15,11 @@ class BookObserver
 
     public function updated(Books $book)
     {
-        $changes = $book->getChanges(); // solo los campos modificados
+        $changes = $book->getChanges(); 
         $this->logAction($book, 'update', $changes);
     }
 
-    public function deleted(Books $book)
+    public function deleting(Books $book)
     {
         $this->logAction($book, 'delete');
     }
@@ -32,7 +32,7 @@ class BookObserver
             $log = new Log();
             $log->book_id = $book->id;
             $log->event_id = $event->id;
-            $log->user = 'Sistema'; // o 'Admin', si deseas identificar usuarios
+            $log->user = 'Sistema'; 
             $log->details = $details ? json_encode($details, JSON_UNESCAPED_UNICODE) : null;
             $log->save();
         }

@@ -36,4 +36,13 @@ class BooksRequest extends FormRequest
 
         return $rules;
     }
+
+    public function messages() : array
+    {
+        return [
+            'count.required' => 'La cantidad de libros es requerida',
+            'count.integer' => 'La cantidad de libros debe ser numeros enteros', 
+            
+        ];   
+    }
 }
