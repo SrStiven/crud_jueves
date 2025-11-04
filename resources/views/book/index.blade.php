@@ -18,32 +18,35 @@
         @csrf
         <div class="form-group">
             <label> Nombre del autor</label>
-            <input type="text" name="name" required>
+            <input type="text" name="name" value="{{ old('name') }}" required>
         </div>
         <div class="form-group">
             <label>Titulo del libro</label>
-            <input type="text" name="title" required>
+            <input type="text" name="title" value="{{ old('title') }}" required>
         </div>
         <div class="form-group">
             <label>Cantidad de libros</label>
-            <input type="text" name="count" required >
+            <input type="text" name="count" value="{{ old('count') }}" required >
         </div>
         <div class="form-group">
             <label>Fecha de vencimiento del libro</label>
-            <input type="date" name="due_date" required>
+            <input type="date" name="due_date" value="{{ old('due_date') }}" required>
         </div>
         <div class="form-group">
             <label>Genero del libro</label>
             <select name="gender" class="form-control">
                 <option value="">Seleccinar</option>
-                <option value="accion">Accion</option>
-                <option value="comedia">Comedia</option>
-                <option value="ficcion">Ficcion</option>
+                <option value="accion" {{ old('gender') == 'accion' ? 'selected' : '' }}>Accion</option>
+                <option value="comedia"{{ old('gender') == 'comedia' ? 'selected' : '' }}>Comedia</option>
+                <option value="ficcion" {{ old('gender') == 'ficcion' ? 'selected' : '' }}>Ficcion</option>
             </select>
         </div>
-        <div class="form-group">
-            <label>Archivo pdf o word</label>
-            <input type="file" name="file" accept=".pdf,.doc,.docx,.xlsx" required>
+         <div class="form-group">
+            <label>Archivo PDF o Word</label>
+            <input type="file" name="file" accept=".pdf,.doc,.docx" class="form-control" required>
+            @error('file')
+                <span class="text-danger">{{ $message }}</span>
+            @enderror
         </div>
         <br>
         <button type="submit">Enviar</button>
