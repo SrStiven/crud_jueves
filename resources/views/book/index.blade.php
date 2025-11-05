@@ -1,135 +1,192 @@
 @extends('layouts.app')
 @section('content')
+<div class="container py-5">
+    <div class="card shadow-lg mb-5">
+        <div class="card-header bg-primary text-white text-center py-4">
+            <h2 class="mb-0"><i class="fas fa-book"></i> Crear Nuevo Libro</h2>
+        </div>
+        <div class="card-body p-4">
+            <form action="{{ route('book.create') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-user"></i> Nombre del Autor</label>
+                        <input type="text" name="name" value="{{ old('name') }}" 
+                               class="form-control form-control-lg @error('name') is-invalid @enderror" 
+                               placeholder="Ingrese el nombre del autor" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
 
-    <div class="container p-3 my-3 border">
-        <div class="mx-auto" style="width:200px">
-            <h2>Crear libros</h2>
-        </div>
-        <form action="{{ route('book.create') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-            <label> Nombre del autor</label>
-            <input type="text" name="name" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" required>
-            @error('name')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Titulo del libro</label>
-            <input type="text" name="title" value="{{ old('title') }}" class="form-control @error('title') is-invalid @enderror" required>
-            @error('title')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Cantidad de libros</label>
-            <input type="text" name="count" value="{{ old('count') }}" class="form-control @error('count') is-invalid @enderror" required>
-            @error('count')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Fecha de vencimiento del libro</label>
-            <input type="date" name="due_date" value="{{ old('due_date') }}" class="form-control @error('due_date') is-invalid @enderror" required>
-            @error('due_date')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-        <div class="form-group">
-            <label>Genero del libro</label>
-            <select name="gender" class="form-control" class="form-control @error('gender') is-invalid @enderror" required>
-                <option value="">Seleccinar</option>
-                <option value="accion" {{ old('gender') == 'accion' ? 'selected' : '' }}>Accion</option>
-                <option value="comedia"{{ old('gender') == 'comedia' ? 'selected' : '' }}>Comedia</option>
-                <option value="ficcion" {{ old('gender') == 'ficcion' ? 'selected' : '' }}>Ficcion</option>
-            </select>
-            @error('gender')
-                <div class="text-danger mt-1">{{ $message }}</div>
-            @enderror
-        </div>
-         <div class="form-group">
-            <label>Archivo PDF o Word</label>
-            <input type="file" name="file" accept=".pdf,.doc,.docx,.xlsx" class="form-control @error('count') is-invalid @enderror" required>
-            @error('file')
-                <span class="text-danger mt-1">{{ $message }}</span>
-            @enderror
-        </div>
-        <br>
-        <button type="submit">Enviar</button>
-    </form>
-    </div>
- 
-    <hr>
-    <form action="{{ route('book.destroy') }}" method="POST" onsubmit="return confirm('Estas seguro?')">
-        @csrf
-        <div>
-            <label>Eliminar todos los libros</label>
-            <button type="submit" class="btn btn-danger"> Eliminar</button>
-        </div>
-    </form>
-    <hr>
-    <div class="container">
-        <div class="container p-3 my-3 border">
-            <h2>Export</h2>
-            <label>Export excel</label>
-            <a href="{{ route('book.export') }}"  class="btn btn-light">Exportar excel</a>
-    </div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-book-open"></i> Título del Libro</label>
+                        <input type="text" name="title" value="{{ old('title') }}" 
+                               class="form-control form-control-lg @error('title') is-invalid @enderror" 
+                               placeholder="Ingrese el título del libro" required>
+                        @error('title')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
 
-    <div class="container p-3 my-3 border">
-        <h2>Import</h2>
-        <form action="{{ route('book.import') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div>
-            <label>Importar excel</label>
-            <input type="file" name="file">
-            <button type="submit" class="btn btn-secondary">Cargar</button>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-hashtag"></i> Cantidad</label>
+                        <input type="number" name="count" value="{{ old('count') }}" 
+                               class="form-control form-control-lg @error('count') is-invalid @enderror" 
+                               placeholder="0" min="1" required>
+                        @error('count')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-calendar-alt"></i> Fecha de Vencimiento</label>
+                        <input type="date" name="due_date" value="{{ old('due_date') }}" 
+                               class="form-control form-control-lg @error('due_date') is-invalid @enderror" required>
+                        @error('due_date')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label fw-bold"><i class="fas fa-theater-masks"></i> Género</label>
+                        <select name="gender" class="form-select form-select-lg @error('gender') is-invalid @enderror" required>
+                            <option value="">Seleccionar género</option>
+                            <option value="accion" {{ old('gender') == 'accion' ? 'selected' : '' }}>Acción</option>
+                            <option value="comedia" {{ old('gender') == 'comedia' ? 'selected' : '' }}>Comedia</option>
+                            <option value="ficcion" {{ old('gender') == 'ficcion' ? 'selected' : '' }}>Ficción</option>
+                        </select>
+                        @error('gender')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold"><i class="fas fa-file-upload"></i> Archivo PDF o Word</label>
+                    <input type="file" name="file" accept=".pdf,.doc,.docx,.xlsx" 
+                           class="form-control form-control-lg @error('file') is-invalid @enderror" required>
+                    <small class="text-muted">Formatos aceptados: PDF, DOC, DOCX, XLSX</small>
+                    @error('file')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-save"></i> Guardar Libro
+                    </button>
+                </div>
+            </form>
         </div>
-        </form>
     </div>
 
+    
+    <div class="row mb-5">
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-danger"><i class="fas fa-trash-alt"></i> Eliminar Todos</h5>
+                    <p class="text-muted">Eliminar todos los libros de la base de datos</p>
+                    <form action="{{ route('book.destroy') }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar todos los libros?')">
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-exclamation-triangle"></i> Eliminar Todo
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-success"><i class="fas fa-file-excel"></i> Exportar</h5>
+                    <p class="text-muted">Descargar todos los libros en Excel</p>
+                    <a href="{{ route('book.export') }}" class="btn btn-success">
+                        <i class="fas fa-download"></i> Exportar Excel
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-info"><i class="fas fa-file-import"></i> Importar</h5>
+                    <p class="text-muted">Cargar libros desde un archivo Excel</p>
+                    <form action="{{ route('book.import') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <div class="mb-2">
+                            <input type="file" name="file" class="form-control form-control-sm" required>
+                        </div>
+                        <button type="submit" class="btn btn-info">
+                            <i class="fas fa-upload"></i> Cargar Excel
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="mb-0"><i class="fas fa-list"></i> Listado de Libros</h3>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th><i class="fas fa-user"></i> Autor</th>
+                            <th><i class="fas fa-book"></i> Título</th>
+                            <th><i class="fas fa-hashtag"></i> Cantidad</th>
+                            <th><i class="fas fa-theater-masks"></i> Género</th>
+                            <th><i class="fas fa-calendar"></i> Fecha</th>
+                            <th><i class="fas fa-file"></i> Archivo</th>
+                            <th><i class="fas fa-history"></i> Logs</th>
+                            <th colspan="2" class="text-center"><i class="fas fa-cog"></i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($books as $book)
+                            <tr class="{{ $book->active ? '' : 'table-danger' }}">
+                                <td>{{ $book->name }}</td>
+                                <td>{{ $book->title }}</td>
+                                <td><span class="badge bg-primary">{{ $book->count }}</span></td>
+                                <td><span class="badge bg-info">{{ ucfirst($book->gender) }}</span></td>
+                                <td>{{ \Carbon\Carbon::parse($book->due_date)->format('d/m/Y') }}</td>
+                                <td>
+                                    @if ($book->file_path)
+                                        <a href="{{ asset('storage/' . $book->file_path) }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                            <i class="fas fa-eye"></i> Ver
+                                        </a>
+                                    @else
+                                        <span class="text-muted">Sin archivo</span>
+                                    @endif
+                                </td>
+                                <td>
+                                    <a href="{{ route('book.logs', $book->id) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-history"></i> Logs
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-warning">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="{{ route('book.delete', $book->id) }}" class="btn btn-sm btn-danger">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div class="container">
-   <table class="table">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Titulo</th>
-                <th>Cantidad</th>
-                <th>Genero</th>
-                <th>Fecha</th>
-                <th>Archivo</th>
-                <th>Logs</th>
-                <th>Accion</th>
-                <th>Accion</th>
-            </tr>
-        </thead>
-        @foreach ($books as $book )
-            <tbody>
-                <tr style="{{ $book->active ? '' : 'background-color:red' }}">
-                    <th>{{$book->name}}</th>
-                    <th>{{$book->title}}</th>
-                    <th>{{$book->count}}</th>
-                    <th>{{$book->gender}}</th>
-                    <th>{{$book->due_date}}</th>
-                    <th>
-                        @if ($book->file_path)
-
-                        <a href="{{ asset('storage/' .  $book->file_path) }}" target="_blank"> Ver archivo</a>
-                        @else
-                        <span>Sin archivo</span>    
-                        @endif
-                    </th>
-                    <th>
-                        <a href="{{ route('book.logs', $book->id) }}" class="btn btn-info btn-sm">Ver logs</a>
-                    </th>
-                    <th><a href="{{ route('book.edit', $book->id) }}">Editar</a></th>
-                    <th><a href="{{ route('book.delete', $book->id) }}">Eliminar</a></th>
-                </tr>
-            </tbody>
-            
-        @endforeach
-    </table>
-</div>
-@endsection
