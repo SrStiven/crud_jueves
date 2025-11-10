@@ -27,7 +27,14 @@
                             @endphp
                             <ul class="mb-0">
                                 @foreach($changes as $field => $value)
-                                    <li><strong>{{ ucfirst($field) }}:</strong> {{ $value }}</li>
+                                    <li>
+                                        <strong>{{ ucfirst($field) }}:</strong>
+                                        @if(is_array($value))
+                                            {{ json_encode($value, JSON_UNESCAPED_UNICODE) }}
+                                        @else
+                                            {{ $value }}
+                                        @endif
+                                    </li>
                                 @endforeach
                             </ul>
                         @else

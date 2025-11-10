@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Http\Controllers;
 
+use App\Models\Books;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -16,5 +17,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Books::class);
     }
-
 }

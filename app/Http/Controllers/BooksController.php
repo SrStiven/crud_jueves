@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Exports\BooksExport;
 use App\Http\Requests\BooksRequest;
 use App\Imports\BooksImport;
@@ -14,26 +15,25 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BooksController extends Controller
 {
-    public function index()
+        public function index()
     {
-        $books = Books::all();
-
+        $books = Books::where('user_id', auth()->id())->get();
         return view('book.index', compact('books'));
     }
 
     public function create(BooksRequest $request)
     {
-        $fillpath = $request->file('file')->store('books','public');
+        $fillpath = $request->file('file')->store('books', 'public');
 
         $data = $request->validated();
-        
         $data['file_path'] = $fillpath;
+        $data['user_id'] = auth()->id();
 
         Books::create($data);
 
         return redirect()->route('book.index');
-        
     }
+
 
     public function update(BooksRequest $request)
     {
