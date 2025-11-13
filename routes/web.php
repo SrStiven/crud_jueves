@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BooksController;
-    use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Report\ReportBookEditorialController;
+use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [BooksController::class, 'index'])->name('book.index');
@@ -31,3 +32,9 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/password/update', [AuthController::class, 'showUpdatePasswordForm'])->name('password.update.form')->middleware('auth');
 Route::post('/password/update', [AuthController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+
+Route::prefix('report/editorial')->middleware('auth')->group(function () {
+    Route::get('/', [ReportBookEditorialController::class, 'index'])->name('report.editorial.index');
+    Route::get('/search', [ReportBookEditorialController::class, 'search'])->name('report.editorial.search');
+    Route::get('/export', [ReportBookEditorialController::class, 'export'])->name('report.editorial.export');
+});

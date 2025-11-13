@@ -15,10 +15,15 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class BooksController extends Controller
 {
-        public function index()
+    public function index()
     {
-        $books = Books::where('user_id', auth()->id())->get();
-        return view('book.index', compact('books'));
+        $books = Books::where('user_id', auth()->id())
+        ->with('editorial')
+        ->get();
+
+        $editorials = \App\Models\Editorial::all();
+
+        return view('book.index', compact('books', 'editorials'));
     }
 
     public function create(BooksRequest $request)
@@ -28,6 +33,7 @@ class BooksController extends Controller
         $data = $request->validated();
         $data['file_path'] = $fillpath;
         $data['user_id'] = auth()->id();
+        $data['editorial_id'] = $request->input('editorial_id');
 
         Books::create($data);
 

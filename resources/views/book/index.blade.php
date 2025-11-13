@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container py-5">
-    {{-- Encabezado con botones de usuario --}}
+    
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h2 class="fw-bold text-primary mb-1">
@@ -17,12 +17,16 @@
         </div>
 
         <div>
-            {{-- Botón actualizar contraseña --}}
+            
+            <a href="{{ route('report.editorial.index') }}" class="btn btn-outline-secondary">
+                <i class="fas fa-chart-bar"></i> Ver Reporte Editorial
+            </a>
+
             <a href="{{ route('password.update.form') }}" class="btn btn-warning me-2">
                 <i class="fas fa-key"></i> Actualizar Contraseña
             </a>
 
-            {{-- Botón cerrar sesión --}}
+            
             <form action="{{ route('logout') }}" method="POST" class="d-inline">
                 @csrf
                 <button type="submit" class="btn btn-danger">
@@ -32,7 +36,7 @@
         </div>
     </div>
 
-    {{-- Formulario crear libro --}}
+    
     <div class="card shadow-lg mb-5">
         <div class="card-header bg-primary text-white text-center py-4">
             <h3 class="mb-0"><i class="fas fa-plus-circle"></i> Crear Nuevo Libro</h3>
@@ -105,7 +109,17 @@
                         <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
-
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold"><i class="fas fa-building"></i> Editorial</label>
+                    <select name="editorial_id" class="form-select form-select-lg">
+                        <option value="">Seleccionar editorial</option>
+                        @foreach($editorials as $editorial)
+                                <option value="{{ $editorial->id }}" {{ old('editorial_id') == $editorial->id ? 'selected' : '' }}>
+                                {{ $editorial->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary btn-lg px-5">
                         <i class="fas fa-save"></i> Guardar Libro
@@ -183,6 +197,7 @@
                                 <th><i class="fas fa-calendar"></i> Fecha</th>
                                 <th><i class="fas fa-file"></i> Archivo</th>
                                 <th><i class="fas fa-history"></i> Logs</th>
+                                <th><i class="fas fa-building"></i> Editorial</th>
                                 <th colspan="2" class="text-center"><i class="fas fa-cog"></i> Acciones</th>
                             </tr>
                         </thead>
@@ -208,6 +223,7 @@
                                             <i class="fas fa-history"></i> Logs
                                         </a>
                                     </td>
+                                    <td>{{ $book->editorial->name ?? 'Sin editorial' }}</td>
                                     <td>
                                         <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i> Editar

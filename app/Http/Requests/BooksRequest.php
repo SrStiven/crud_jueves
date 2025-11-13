@@ -27,6 +27,7 @@ class BooksRequest extends FormRequest
             'count' => 'required|integer',
             'gender' => 'required|string',
             'due_date' => 'required|date',
+            'editorial_id' => 'nullable|exists:editorials,id',
             'file' => 'nullable|mimes:pdf,doc,docx|max:2048',
         ];
 
@@ -50,6 +51,7 @@ class BooksRequest extends FormRequest
             'gender.string' => 'Se debe seleccionar un genero',
             'due_date.required' => 'La fecha es obligatoria',
             'due_date.date' => 'Debe ingresar una fecha válida',
+            'editorial_id.exists' => 'La editorial seleccionada no existe.',
             'file.mimes' => 'El archivo debe ser de tipo PDF, DOC o DOCX',
             'file.max' => 'El archivo no debe superar los 2MB',
 
